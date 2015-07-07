@@ -1,24 +1,60 @@
-# GitJavadocAnbindung
-first commit
+Welcome to jBloomberg
 
-Welcome to GitHub Pages.
+jBloomberg is a high-level API that wraps the low level Bloomberg Desktop Java API. Although most features of the underlying Bloomberg API are available, some options might not be reachable through the jBloomberg API.
 
-This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new gh-pages branch locally. If you're using GitHub for Mac or GitHub for Windows, simply sync your repository and you'll see the new branch.
+You can browse the <p><a href="http://stephanti.github.io/GitJavadocAnbindung/praxisdocs">Projekt - Javadocs</a></p> for more information, including example usages.
+Requirements
 
-Designer Templates
+As of v3, Java 8 is required.
+Usage
+Maven dependency
 
-We've crafted some handsome templates for you to use. Go ahead and click 'Continue to layouts' to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved.
+You can create a Maven dependency to download jBloomberg atrifact:
 
-Creating pages manually
+<dependency>
+  <groupId>com.assylias</groupId>
+  <artifactId>jbloomberg</artifactId>
+  <version>3.3</version>
+</dependency>
 
-If you prefer to not use the automatic generator, push a branch named gh-pages to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.
+Installing Bloomberg jar
 
-Authors and Contributors
+You need to manually install the jar of the Bloomberg API in your maven repository for this to work.
 
-You can @mention a GitHub username to generate a link to their profile. The resulting <a> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (@defunkt), PJ Hyett (@pjhyett), and Tom Preston-Werner (@mojombo) founded GitHub.
+Download the file (version 3.8.7.2) from bloomberg's website. Extract and save the main jar file to a folder, c:/temp for example. Then run:
 
-Support or Contact
+mvn install:install-file -Dfile=c:/temp/blpapi-3.8.7-2.jar -DgroupId=com.bloombergblp -DartifactId=blpapi -Dversion=3.8.7.2 -Dpackaging=jar
 
-Having trouble with Pages? Check out our documentation or contact support and we’ll help you sort it out.
+Description
 
-Projekt - Javadocs
+The main advantages of this library vs. the Bloomberg API are:
+
+    Less string based configuration: whenever possible enums are used to remove the typos issues
+    Less verbose: retrieving historical data literally takes 5 lines of code, whereas when using the Bloomberg API, the code gets quickly cluttered with parsing, error handling and so on
+    Fluent design: most queries to Bloomberg are prepared with builders using the fluent interface pattern
+    The library takes thread safety seriously (so does the Bloomberg API): all actions / objects are thread safe and can be used in a multi threaded application (unless indicated otherwise, for example the builders)
+    Uses the standard java.util.concurrent package objects, so the syntax / way of doing things should look familiar to Java developers. For example, a historical data request returns a Future<HistoricalData>
+
+It should however be noted that using jBloomberg does increase memory consumption and GC vs. using BLPAPI directly although for most applications that should not be noticeable.
+Stability
+
+Note that the API is not stable yet and its design could be subject to changes in the future.
+License
+
+Apache License v2.0
+Dependencies
+Source dependencies
+
+    guava (Apache License v2.0)
+    slf4j (MIT License)
+    Bloomberg BLPAPI (tested with 3.8.7.2) (MIT-like License)
+    Big Blue Utils (Apache License v2.0)
+
+Test dependencies
+
+    jmockit (MIT License)
+    testNG (Apache License v2.0)
+
+Issues
+
+If you find a bug or want a new feature you can ask in the Issues section on github. For general questions or if you are unable to get something to work you can ask on stackoverflow using the jbloomberg tag in your question.
